@@ -1,5 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native"
 import { theme } from "../theme";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Entypo from '@expo/vector-icons/Entypo';
 
 type Props = {
   name: string;
@@ -27,25 +29,33 @@ export function ShoppingListItem({ name, isCompleted }: Props) {
   }
 
   return (
-    <View style={[styles.itemContainer, isCompleted ? styles.completedContainer : undefined]}>
-      <Text style={[styles.itemText, isCompleted ? styles.completedText : undefined]}>{name}</Text>
-      <TouchableOpacity style={[styles.button, isCompleted ? styles.completedButton : undefined]} onPress={handleDelete} activeOpacity={0.8}>
-        <Text style={styles.buttonText}>Delete</Text>
-      </TouchableOpacity>
+    <View
+      style={[styles.itemContainer, isCompleted ? styles.completedContainer : undefined]}
+    >
+      <View style={styles.row}>
+        <Entypo
+          name={isCompleted ? "check" : "circle"}
+          size={24}
+          color={isCompleted ? theme.colorGrey : theme.colorCerulean}
+        />
+        <Text
+          style={[styles.itemText, isCompleted ? styles.completedText : undefined]}
+        >
+          {name}
+        </Text>
+        <TouchableOpacity hitSlop={20} onPress={handleDelete} activeOpacity={0.8}>
+          <AntDesign name="closecircle" size={24} color={isCompleted ? theme.colorGrey : theme.colorRed} />
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colorWhite,
-    justifyContent: "center",
-  },
   itemContainer: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colorCerulean,
-    paddingHorizontal: 8,
+    paddingHorizontal: 18,
     paddingVertical: 16,
     flexDirection: "row",
     alignItems: "center",
@@ -58,24 +68,17 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 18,
     fontWeight: "200",
+    marginLeft: 8,
+    flex: 1,
   },
   completedText: {
     textDecorationLine: "line-through",
     textDecorationColor: theme.colorGrey,
     color: theme.colorGrey,
   },
-  button: {
-    backgroundColor: theme.colorBlack,
-    padding: 8,
-    borderRadius: 6,
-  },
-  completedButton: {
-    backgroundColor: theme.colorGrey,
-  },
-  buttonText: {
-    color: theme.colorWhite,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: 1,
+  row: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
   },
 });
