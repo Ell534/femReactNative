@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View, FlatList, Text } from "react-native";
+import { StyleSheet, TextInput, View, FlatList, Text, LayoutAnimation } from "react-native";
 import { theme } from "../theme";
 import { ShoppingListItem } from "../components/ShoppingListItem";
 import { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ export default function App() {
     const fetchInitial = async () => {
       const data = await getFromStorage(storageKey)
       if (data) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
         setShoppingList(data)
       }
     }
@@ -31,6 +32,7 @@ export default function App() {
   const handleSubmit = () => {
     if (value) {
       const newShoppingList = [{ id: new Date().toISOString(), name: value, lastUpdatedTimestamp: Date.now(), }, ...shoppingList,]
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
       setShoppingList(newShoppingList)
       saveToStorage(storageKey, newShoppingList)
       setValue("")
@@ -40,6 +42,7 @@ export default function App() {
   const handleDelete = (id: string) => {
     const newShoppingList = shoppingList.filter((item) => item.id !== id)
     saveToStorage(storageKey, newShoppingList)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setShoppingList(newShoppingList)
   }
 
@@ -55,6 +58,7 @@ export default function App() {
       return item
     })
     saveToStorage(storageKey, newShoppingList)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setShoppingList(newShoppingList)
   }
 
